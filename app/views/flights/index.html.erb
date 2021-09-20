@@ -1,0 +1,20 @@
+
+<div class="container">
+  <div class="row my-3">
+    <div class="d-flex my-1"> 
+
+      <h1>Flights</h1>
+
+    </div>
+  </div>
+</div>
+
+
+<%= render partial: 'search_flights', locals: { airports: @airports, flights: @flights }  %>
+
+
+<%= render partial: 'list_flights', locals: { flights: params[:flight] }  %>
+
+<br>
+
+<%= render partial: 'list_flights', locals: { flights: @flights_select }  %>
