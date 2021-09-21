@@ -4,20 +4,26 @@
   
   <div class="form-group row mt-5">
     <div class="col-md-4">
-    <%= form.select :from_airport_id, options_from_collection_for_select(airports, :id, :name) , { :prompt => 'Departure Airport'}, { :style => "min-width: 300px" } %>
+       <%= form.select :from_airport_id, options_from_collection_for_select(airports, :id, :name) , { :prompt => 'Departure Airport'}, { :style => "min-width: 300px" } %>
     </div>
     <div class="col-md-4">
-    <%= form.select :to_airport_id, options_from_collection_for_select(airports, :id, :name)  , {:prompt => 'Arrival Airport' },  { :style => "min-width: 300px" } %>
+       <%= form.select :to_airport_id, options_from_collection_for_select(airports, :id, :name)  , {:prompt => 'Arrival Airport' },  { :style => "min-width: 300px" } %>
     </div>
   </div>
 
-  <%= form.date_field :depart_date, min: Date.new(2021, 11, 01), :order => [:day, :month, :year] %>
-
   <div class="form-group my-3">
-    <%= form.select :num_passengers, 1 .. 4, {:prompt => 'No. of passengers' },  { :style => "min-width: 300px" } %>
+    <div class="my-3">
+      <%= form.date_field :depart_date, min: Date.new(2021, 11, 01), :order => [:day, :month, :year] %>
+    </div>
+    <div class="my-3">
+      <%= form.select :num_passengers, 1 .. 4, {:prompt => 'No. of passengers' },  { :style => "min-width: 300px" } %>
+    </div>
   </div>
 
-  <%= form.submit "Search", class: "btn btn-primary" %>
+
+  <div class="form-group mb-3">
+    <%= form.submit "Search", class: "btn btn-primary" %>
+  </div>
 
   </div>
 

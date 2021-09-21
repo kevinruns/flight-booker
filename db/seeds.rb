@@ -79,6 +79,9 @@ def get_airline_code(origin, destination)
   AIRLINES[origin][destination] || AIRLINES[destination][origin]
 end
 
+def get_random_string
+  [*('A'..'Z'),*('0'..'9')].shuffle[0, 5].join
+end
 
 
 ActiveRecord::Base.transaction do
@@ -123,15 +126,14 @@ ActiveRecord::Base.transaction do
 
         3.times { 
 
-                  t = random_time
-                  dt = DateTime.new(date.year, date.month, date.day, t.hour, t.min, t.sec)
-
                   airline_code = get_airline_code(origin.code, destination.code)
                   airline_var =  Airline.find_by code: airline_code
 
-                  Flight.create(from_airport_id: origin.id, 
+                  Flight.create(flight_number: get_random_string,
+                                from_airport_id: origin.id, 
                                 to_airport_id: destination.id, 
-                                depart_date: dt, 
+                                depart_date: date, 
+                                depart_time: random_time,
                                 duration: get_duration(origin.code, destination.code), 
                                 airline_id: airline_var.id)
                 }
