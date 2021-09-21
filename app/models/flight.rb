@@ -11,11 +11,11 @@ class Flight < ApplicationRecord
 
 
   def formatted_depart_date
-    depart_date.strftime("%m/%d/%Y")
+    depart_date.strftime("%d/%m/%Y")
   end
   
   def formatted_time
-    time.strftime('%l:%M%P')
+    depart_date.strftime('%H:%M')
   end
 
   

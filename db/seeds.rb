@@ -7,58 +7,145 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-# Airports
+DURATIONS = {
+  'FRA' => {
+    'LHR' => 80,
+    'LGW' => 75,
+    'NCE' => 60,
+    'BFS' => 105,
+    'DUB' => 90
+  },
+  'LHR' => {
+    'LGW' => 75,
+    'NCE' => 60,
+    'BFS' => 105,
+    'DUB' => 90
+  },
+  'LGW' => {
+    'NCE' => 60,
+    'BFS' => 105,
+    'DUB' => 90
+  },
+  'NCE' => {
+    'BFS' => 105,
+    'DUB' => 90
+  },
+  'BFS' => {
+    'DUB' => 82
+  },
+  'DUB' => {}
+}
 
-Airport::destroy_all
+AIRLINES = {
 
-Airport.create(id: 1, name: 'Frankfurt', code: 'FRA')
-Airport.create(id: 2, name: 'Heathrow', code: 'LHR')
-Airport.create(id: 3, name: 'Gatwick', code: 'LGW')
-Airport.create(id: 4, name: 'Nice', code: 'NCE')
-Airport.create(id: 5, name: 'Belfast', code: 'BFS')
-Airport.create(id: 6, name: 'Dublin', code: 'DUB')
-
-
-# Flights
-
-Flight::destroy_all
-
-Flight.create!(id: 1, from_airport_id: 1, to_airport_id: 2, depart_date: '20210814132000', duration: '120', airline_id: 1)
-Flight.create!(id: 2, from_airport_id: 1, to_airport_id: 3, depart_date: '20210819090000', duration: '60', airline_id: 2)
-Flight.create!(id: 3, from_airport_id: 1, to_airport_id: 2, depart_date: '20210921123000', duration: '120', airline_id: 3)
-Flight.create!(id: 4, from_airport_id: 6, to_airport_id: 4, depart_date: '20210923190000', duration: '140', airline_id: 3)
-Flight.create!(id: 5, from_airport_id: 6, to_airport_id: 1, depart_date: '20211102160000', duration: '90', airline_id: 1)
-Flight.create!(id: 6, from_airport_id: 1, to_airport_id: 2, depart_date: '20211006144000', duration: '120', airline_id: 2)
-Flight.create!(id: 7, from_airport_id: 1, to_airport_id: 2, depart_date: '20210912085000', duration: '120', airline_id: 3)
-
-
-
-# Airlines
-
-Airline::delete_all
-
-Airline.create!(id: 1, name: 'Ryanair', code: 'RYR')
-Airline.create!(id: 2, name: 'Easyjet', code: 'EZY')
-Airline.create!(id: 3, name: 'Air France', code: 'AF')
-Airline.create!(id: 4, name: 'British Airways', code: 'BA')
+  'FRA' => {
+    'LHR' => 'RYR',
+    'LGW' => 'EZY',
+    'NCE' => 'RYR',
+    'BFS' => 'AF',
+    'DUB' => 'RYR'
+  },
+  'LHR' => {
+    'LGW' => 'RYR',
+    'NCE' => 'AF',
+    'BFS' => 'RYR',
+    'DUB' => 'AF'
+  },
+  'LGW' => {
+    'NCE' => 'BA',
+    'BFS' => 'RYR',
+    'DUB' => 'BA'
+  },
+  'NCE' => {
+    'BFS' => 'RYR',
+    'DUB' => 'BA'
+  },
+  'BFS' => {
+    'DUB' => 'EZY'
+  },
+  'DUB' => {}
+}
 
 
-# Passengers
+def random_time
+  Faker::Time.between(from: DateTime.now - 1, to: DateTime.now)
+end
 
-Passenger::delete_all
+def get_duration(origin, destination)
+  DURATIONS[origin][destination] || DURATIONS[destination][origin]
+end
 
-Passenger.create!(id: 1, first_name: 'Bob', family_name: 'Smith', email: 'bob@gmail.com')
-Passenger.create!(id: 2, first_name: 'Harold', family_name: 'Jones', email: 'harold@gmail.com')
-Passenger.create!(id: 3, first_name: 'Mick', family_name: 'Feeney', email: 'mick@gmail.com')
-
-
-
-# Bookings
-
-Booking::delete_all
-
-Booking.create!(flight_id: 1, passenger_id: 1)
+def get_airline_code(origin, destination)
+  AIRLINES[origin][destination] || AIRLINES[destination][origin]
+end
 
 
 
-puts "data loaded success"
+ActiveRecord::Base.transaction do
+
+  Booking.destroy_all
+  Passenger.destroy_all
+  Flight.destroy_all
+  Airport.destroy_all
+  Airline.destroy_all
+
+  ActiveRecord::Base.connection.reset_pk_sequence!('bookings')
+  ActiveRecord::Base.connection.reset_pk_sequence!('passengers')
+  ActiveRecord::Base.connection.reset_pk_sequence!('flights')
+  ActiveRecord::Base.connection.reset_pk_sequence!('airports')
+  ActiveRecord::Base.connection.reset_pk_sequence!('airlines')
+
+
+  # seed airports
+  airports = []
+  airports[0] = Airport.create(name: 'Frankfurt', code: 'FRA')
+  airports[1] = Airport.create(name: 'Heathrow', code: 'LHR')
+  airports[2] = Airport.create(name: 'Gatwick', code: 'LGW')
+  airports[3] = Airport.create(name: 'Nice', code: 'NCE')
+  airports[4] = Airport.create(name: 'Belfast', code: 'BFS')
+  airports[5] = Airport.create(name: 'Dublin', code: 'DUB')
+
+
+  # seed airlines
+  airlines = []
+  airlines[0] = Airline.create(name: 'Ryanair', code: 'RYR')
+  airlines[1] = Airline.create(name: 'Easyjet', code: 'EZY')
+  airlines[2] = Airline.create(name: 'Air France', code: 'AF')
+  airlines[3] = Airline.create(name: 'British Airways', code: 'BA')
+
+
+  # seed flights
+
+  Date.new(2021, 11, 1).upto(Date.new(2021, 11, 30)).each do |date|
+    airports.each do |origin|
+      airports.each do |destination|
+        next if origin == destination
+
+        3.times { 
+
+                  t = random_time
+                  dt = DateTime.new(date.year, date.month, date.day, t.hour, t.min, t.sec)
+
+                  airline_code = get_airline_code(origin.code, destination.code)
+                  airline_var =  Airline.find_by code: airline_code
+
+                  Flight.create(from_airport_id: origin.id, 
+                                to_airport_id: destination.id, 
+                                depart_date: dt, 
+                                duration: get_duration(origin.code, destination.code), 
+                                airline_id: airline_var.id)
+                }
+      end
+    end
+  end
+
+  @passengers = []
+  10.times do |i|
+    @passengers[i] = Passenger.create(first_name: Faker::Name.first_name, family_name: Faker::Name.last_name, email: Faker::Internet.email)
+  end
+
+end
+
+
+
+##########################################################################################################################

@@ -10,11 +10,7 @@
 </div>
 
 
-<%= render partial: 'search_flights', locals: { airports: @airports, flights: @flights }  %>
+<%= render partial: 'search_flights', locals: { airports: @airports }  %>
 
-
-<%= render partial: 'list_flights', locals: { flights: params[:flight] }  %>
-
-<br>
 
 <%= render partial: 'list_flights', locals: { flights: @flights_select }  %>
