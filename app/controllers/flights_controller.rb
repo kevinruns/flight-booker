@@ -6,12 +6,12 @@ class FlightsController < ApplicationController
     @flights = Flight.all
 
     if params[:flight]
- 
-      # removes fields user did not select (e.g. origin: '')
-      params[:flight].delete_if { |_k, v| v.empty? }
 
-      if params[:flight].empty?
-        @flights_select = Flight.all.includes(:from_airport, :to_airport).order(:depart_date).limit(100)
+      if params[:flight][:from_airport_id].empty? || params[:flight][:to_airport_id].empty? ||
+        params[:flight][:depart_date].empty? || params[:flight][:num_passengers].empty?
+
+        @flights_select = nil
+
       else
         @flights_select = Flight.where(flight_params).includes(:from_airport, :to_airport).order(:depart_date, :depart_time).limit(100)
       end

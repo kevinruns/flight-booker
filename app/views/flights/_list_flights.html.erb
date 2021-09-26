@@ -2,36 +2,50 @@
 
 <div class="container mt-5">
 
-<% if flights %>
+  <% if flights %>
 
-<h4><%= pluralize(flights.length, 'flight') %> matched your search</h4>
+  <h4><%= pluralize(flights.length, 'flight') %> matched your search</h4>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Flight</th>
-      <th scope="col">Departs</th>
-      <th scope="col">Arrives</th>
-      <th scope="col">Date</th>
-      <th scope="col">Time</th>
-    </tr>
-  </thead>
-  <tbody>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Flight</th>
+        <th scope="col">Departs</th>
+        <th scope="col">Arrives</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Book</th>
+      </tr>
+    </thead>
+    <tbody>
 
-      <% flights.each do |flight| %>
-        <tr> 
-          <th scope="row"><%= flight.flight_number %></th>
-          <td><%= flight.from_airport.code %></td>
-          <td><%= flight.to_airport.code %></td>
-          <td><%= flight.formatted_depart_date %></td>
-          <td><%= flight.formatted_time %></td>
-        </tr>
-      <% end %>
+        <% flights.each do |flight| %>
+          <tr> 
+            <th scope="row"><%= flight.flight_number %></th>
+            <td><%= flight.from_airport.code %></td>
+            <td><%= flight.to_airport.code %></td>
+            <td><%= flight.formatted_depart_date %></td>
+            <td><%= flight.formatted_time %></td>
+            <td>
 
-    </tbody>
-  </table>        
+              <%= button_to "Book", 
+                  new_booking_path, 
+                  method: :get , 
+                  params: { flight_id: flight.id, num_passengers: params[:flight][:num_passengers] }
+              %>
 
-<% end %>
+            </td>
+          </tr>
+        <% end %>
 
+      </tbody>
+    </table>        
+
+  <% else %>
+   
+   <p>Please select all input fields</p>
+
+  <% end %>
 
 </div>
+

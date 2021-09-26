@@ -6,4 +6,13 @@ Rails.application.routes.draw do
   get "flights", to: "flights#index"
   root to: "flights#index"
 
+#  get "new_booking", to: "bookings#new"
+
+  resources :bookings, only: [:new,  :index]
+
+
+#  resources :bookings, only: [:new, :create, :show, :index] do
+#    get 'search', on: :collection
+#  end
+
 end

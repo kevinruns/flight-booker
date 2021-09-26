@@ -1,0 +1,35 @@
+
+
+
+<div class="container">
+
+  <div class="row mt-3">
+    <h2> Flight booking form </h2>
+  </div>
+
+  <div class="row my-5">
+    <%= render partial: 'flight_details', locals: { flight: @flight }  %>
+  </div>
+
+  <div>
+    <h3> Passenger information </h2> 
+  </div>
+
+  <% form_with model: @booking do |form| %>
+
+      <%= form.fields_for :passengers do |passenger_form| %>
+
+        <%= passenger_form.text_field :first_name, placeholder: 'First name' %>
+        <%= passenger_form.text_field :family_name, placeholder: 'Family name'  %>
+        <%= passenger_form.email_field :email, placeholder: 'Email'  %>
+
+      <% end %>
+
+  <% end %>
+
+    
+  
+</div>
+
+
+
