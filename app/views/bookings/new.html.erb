@@ -8,27 +8,46 @@
   </div>
 
   <div class="row my-5">
-    <%= render partial: 'flight_details', locals: { flight: @flight }  %>
+    <%= render partial: 'flights/flight_details', locals: { flight: @flight }  %>
   </div>
 
-  <div>
+  <div class="row my-4">
     <h3> Passenger information </h2> 
   </div>
 
-  <% form_with model: @booking do |form| %>
+
+  <%= form_with model: @booking do |form| %>
+
+    <%= form.hidden_field :flight_id, value: @flight.id %>
 
       <%= form.fields_for :passengers do |passenger_form| %>
 
-        <%= passenger_form.text_field :first_name, placeholder: 'First name' %>
-        <%= passenger_form.text_field :family_name, placeholder: 'Family name'  %>
-        <%= passenger_form.email_field :email, placeholder: 'Email'  %>
+        <%= passenger_form.hidden_field :id, value: nil %>
 
-      <% end %>
+        <div class="row my-2">
+          <h5> Passenger <%= passenger_form.index + 1%> </h5>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <%= passenger_form.text_field :first_name, placeholder: 'First name' %>
+          </div>
+          <div class="col">
+            <%= passenger_form.text_field :family_name, placeholder: 'Family name'  %>
+          </div>
+          <div class="col">       
+            <%= passenger_form.email_field :email, placeholder: 'Email'  %>
+          </div>
+        </div>
+
+    <% end %>
+
+    <div class="form-group mb-3">
+      <%= form.submit "Submit", class: "btn btn-primary" %>
+    </div>
 
   <% end %>
 
-    
-  
+
 </div>
 
 
