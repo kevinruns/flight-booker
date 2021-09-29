@@ -1,40 +1,39 @@
 
+<table class="table table-bordered">
 
-    <table class="table table-bordered">
+  <thead >
+    <tr class="table-primary">
+      <th scope = "col" colspan = "2">Flight details</th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Airline</th>
+      <td> <%= flight.airline.name %> </td>
+    </tr>
+    <tr>
+      <th scope="row">Flight</th>
+      <td> <%= flight.flight_number %> </td>
+    </tr>
+    <tr>
+      <th scope="row">Depart</th>
+      <td> <%= flight.from_airport.code %> </td>
+    </tr>
+      <th scope="row">Arrive</th>
+      <td> <%= flight.to_airport.code %> </td>
+    <tr>
+      <th scope="row">Depart Date</th>
+      <td> <%= flight.depart_date %> </td>
+    </tr>
+    <tr>
+      <th scope="row">Depart Time</th>
+      <td> <%= flight.formatted_time %> </td>
+    </tr>
+    <tr>
+      <th scope="row">Flight Duration (Mins) </th>
+      <td> <%= flight.duration %> </td>
+    </tr>
 
-      <thead >
-        <tr class="table-primary">
-          <th scope = "col" colspan = "2">Flight details</th> 
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Airline</th>
-          <td> <%= flight.airline.name %> </td>
-        </tr>
-        <tr>
-          <th scope="row">Flight</th>
-          <td> <%= flight.flight_number %> </td>
-        </tr>
-        <tr>
-          <th scope="row">Depart</th>
-          <td> <%= flight.from_airport.code %> </td>
-        </tr>
-          <th scope="row">Arrive</th>
-          <td> <%= flight.to_airport.code %> </td>
-        <tr>
-          <th scope="row">Depart Date</th>
-          <td> <%= flight.depart_date %> </td>
-        </tr>
-        <tr>
-          <th scope="row">Depart Time</th>
-          <td> <%= flight.formatted_time %> </td>
-        </tr>
-        <tr>
-          <th scope="row">Flight Duration (Mins) </th>
-          <td> <%= flight.duration %> </td>
-        </tr>
+  </tbody>
 
-      </tbody>
-
-    </table>
+</table>

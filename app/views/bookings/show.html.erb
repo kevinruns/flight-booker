@@ -1,0 +1,12 @@
+
+
+<%= render 'flights/flight_details', flight: @booking.flight %>
+
+<% @booking.passengers.each do |passenger| %>
+
+  <div>
+    <%= passenger.first_name %>
+  </div>
+
+<% end %>
+

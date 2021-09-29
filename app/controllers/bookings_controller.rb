@@ -13,9 +13,24 @@ class BookingsController < ApplicationController
 
 
   def create
-
+    # check if passenger exists via email
     @booking = Booking.new(booking_params)
 
+    if @booking.save
+      redirect_to @booking
+    else
+      render :new
+    end
+  end
+
+  def show
+    @booking = Booking.find_by(id: params[:id])
+    if @booking
+      render :show
+    else
+#      flash[:alert] = 'Sorry, the booking you\'re looking for does not exist.'
+      redirect_to root_url
+    end
   end
 
   private
