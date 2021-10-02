@@ -1,0 +1,23 @@
+
+<table class="table table-bordered">
+
+  <thead >
+    <tr class="table-primary">
+      <th scope = "col" colspan = "2">
+        <%= "Passenger #{index} details" %>
+      </th> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" style="width: 25%">Name</th>
+      <td> <%= "#{passenger.first_name} #{passenger.family_name}" %> </td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td> <%= passenger.email %> </td>
+    </tr>
+
+  </tbody>
+
+</table>

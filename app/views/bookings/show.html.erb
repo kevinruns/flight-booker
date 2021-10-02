@@ -1,12 +1,22 @@
 
+<div class="container">
 
-<%= render 'flights/flight_details', flight: @booking.flight %>
-
-<% @booking.passengers.each do |passenger| %>
-
-  <div>
-    <%= passenger.first_name %>
+  <div class="row mt-5">
+      <h2>Booking information</h2>
   </div>
 
-<% end %>
+  <div class="row my-5">
+    <%= render 'flights/flight_details', flight: @booking.flight %>
+  </div>
 
+  <div class="pb-5">
+
+    <% @booking.passengers.each_with_index do |passenger, index| %>
+      <div class="row my-3">
+        <%= render 'passengers/passenger_details', passenger: passenger, index: index + 1%>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>
