@@ -91,6 +91,8 @@ ActiveRecord::Base.transaction do
   Flight.destroy_all
   Airport.destroy_all
   Airline.destroy_all
+  PassengerBooking.destroy_all
+
 
   ActiveRecord::Base.connection.reset_pk_sequence!('bookings')
   ActiveRecord::Base.connection.reset_pk_sequence!('passengers')
