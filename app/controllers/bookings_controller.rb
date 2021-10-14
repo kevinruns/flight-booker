@@ -17,6 +17,8 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
 
     if @booking.save
+
+      PassengerMailer.with(booking_id: @booking.id).confirmation_email.deliver_later
       redirect_to @booking
     else
       render :new
@@ -28,7 +30,6 @@ class BookingsController < ApplicationController
     if @booking
       render :show
     else
-#      flash[:alert] = 'Sorry, the booking you\'re looking for does not exist.'
       redirect_to root_url
     end
   end
